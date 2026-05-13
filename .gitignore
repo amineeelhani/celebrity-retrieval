@@ -1,0 +1,51 @@
+# Data — never commit images (too large)
+data/
+test_data/
+train_data/
+*.jpg
+*.jpeg
+*.png
+*.bmp
+*.gif
+
+# Model checkpoints (large files)
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.safetensors
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs and temporary results
+*.log
+results_tmp/
