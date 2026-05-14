@@ -1,7 +1,9 @@
 import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import torch
 from PIL import Image
-from utils.submit import submit
+from utils.submit import submit, evaluate_local
 from torchvision import transforms
 
 if torch.cuda.is_available():
@@ -72,7 +74,7 @@ gallery_features = torch.nn.functional.normalize(gallery_features, p = 2, dim = 
 
 similarity_matrix = torch.matmul(query_features, gallery_features.T)
 
-top_k = 10
+top_k = min(10, len(gallery_images))
 _, top_k_indices = torch.topk(similarity_matrix, k=top_k, dim=1)
 
 results = {}
@@ -81,4 +83,10 @@ for i, query_filename in enumerate(query_filenames):
         gallery_filenames[idx] for idx in top_k_indices[i]
     ]
 
-submit(results=results, groupname="trade-off", url="http://localhost:3001/retrieval/")
+#submit(results=results, groupname="trade-off", url="http://localhost:3001/retrieval/")
+
+ground_truth = {
+    "brad1.jpg": ["brad2.jpg"]
+}
+
+evaluate_local(results, ground_truth)
