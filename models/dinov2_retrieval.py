@@ -1,10 +1,8 @@
 import os
-import json
-import requests
 import torch
-import clip
 from PIL import Image
 from utils.submit import submit
+from torchvision import transforms
 
 if torch.cuda.is_available():
     device = torch.device("cuda")
@@ -14,9 +12,18 @@ else:
     device = torch.device("cpu")
 print(f"Using device: {device}")
 
-model, preprocess = clip.load("ViT-B/32",device)
+model = torch.hub.load("facebookresearch/dinov2", "dinov2_vitb14").to(device)
 
 model.eval()
+
+preprocess = transforms.Compose([
+    transforms.Resize((224, 224)),
+    transforms.ToTensor(),
+    transforms.Normalize(
+        mean=[0.485, 0.456, 0.406],
+        std=[0.229, 0.224, 0.225]
+    )
+])
 
 data_folder = "data"
 query_folder = os.path.join(data_folder, "query")
@@ -50,7 +57,7 @@ def extract_features(images, batch_size = 32):
         batch = images[i:i+batch_size]
         inputs = torch.stack([preprocess(img.convert("RGB")) for img in batch]).to(device)
         with torch.no_grad():
-            feature = model.encode_image(inputs)
+            feature = model(inputs)
         features.append(feature)
     return torch.cat(features, dim = 0)
 
