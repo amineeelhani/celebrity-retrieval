@@ -1,12 +1,11 @@
 import os
-import json
-import requests
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import torch
 import clip
 from PIL import Image
 from utils.submit import submit
+from utils.face_detection import load_mtcnn, detect_face
 
 if torch.cuda.is_available():
     device = torch.device("cuda")
@@ -16,9 +15,11 @@ else:
     device = torch.device("cpu")
 print(f"Using device: {device}")
 
-model, preprocess = clip.load("ViT-B/32",device)
 
+
+model, preprocess = clip.load("ViT-B/32",device)
 model.eval()
+mtcnn = load_mtcnn(device)
 
 data_folder = "data"
 query_folder = os.path.join(data_folder, "query")
@@ -50,7 +51,7 @@ def extract_features(images, batch_size = 32):
     features = []
     for i in range(0,len(images), batch_size):
         batch = images[i:i+batch_size]
-        inputs = torch.stack([preprocess(img.convert("RGB")) for img in batch]).to(device)
+        inputs = torch.stack([detect_face(img,mtcnn,preprocess) for img in batch]).to(device)
         with torch.no_grad():
             feature = model.encode_image(inputs)
         features.append(feature)

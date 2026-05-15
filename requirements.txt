@@ -4,3 +4,5 @@ timm
 Pillow
 requests
 numpy
+facenet-pytorch
+openai-clip
