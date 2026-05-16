@@ -132,9 +132,27 @@ for epoch in range(NUM_EPOCHS):
 
     train_acc = train_correct/train_total
 
-    #VALIDATION
+    #VALIDATION "il modello che ha imparato sulle immagini di training 
+    # funziona anche su immagini che non ha mai visto?"
     model.eval()
     classification_head.eval()
     val_correct = 0
     val_total = 0
+    
+    with torch.no_grad():
+        for images,labels in val_loader:
+            images = images.to(device)
+            labels = labels.to(device)
+            features = model.encode_image(images).float()
+            logits = classification_head(features)
+            val_correct += (logits.argmax(dim=1) == labels).sum().item()
+            val_total += labels.size(0)
         
+        
+    val_acc = val_correct/ val_total        
+    print(f"Epoch {epoch+1}/{NUM_EPOCHS} | Train Loss: {train_loss/len(train_loader):.4f} | Train Acc: {train_acc*100:.1f}% | Val Acc: {val_acc*100:.1f}%")
+
+    if val_acc > best_val_acc:
+        best_val_acc = val_acc
+        torch.save(model.state_dict(),f"models/clip_crossentropy_{TRAINING_MODE}.pt")
+        print(f" -> Saved best model (val_acc: {val_acc*100:.1f}%)")
