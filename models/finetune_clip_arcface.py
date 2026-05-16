@@ -35,7 +35,7 @@ class ArcFaceLinear(nn.Module):
 
 TRAINING_MODE = "vggface2"
 if TRAINING_MODE == "vggface2":
-    data_folder = "/path/to/vggface2_faces"
+    data_folder = "/mnt/vggface2/train"
 else:
     data_folder = "data/train"   
 
@@ -67,6 +67,7 @@ classification_head = ArcFaceLinear(512, N_IDENTITY).to(device)
 
 #DATA AUGMENTATION
 train_transform = transforms.Compose([
+    transforms.Resize((224, 224)),
     transforms.RandomHorizontalFlip(p=0.5),
     transforms.RandomRotation(degrees=15),
     transforms.ColorJitter(brightness=0.4, contrast=0.4, saturation=0.4, hue=0.1),
@@ -77,6 +78,7 @@ train_transform = transforms.Compose([
 ])
 
 val_transform = transforms.Compose([
+    transforms.Resize((224, 224)),
     transforms.ToTensor(),
     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 ])
