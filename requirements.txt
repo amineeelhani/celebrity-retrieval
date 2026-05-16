@@ -1,8 +1,11 @@
-torch
-torchvision
-timm
+torch==2.2.0+cu121
+torchvision==0.17.0+cu121
+numpy==1.26.4
 Pillow
 requests
-numpy
+timm
 facenet-pytorch
-openai-clip
+git+https://github.com/openai/CLIP.git
+
+# Install with:
+# pip install -r requirements.txt --index-url https://download.pytorch.org/whl/cu121
