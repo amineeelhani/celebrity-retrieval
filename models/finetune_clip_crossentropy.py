@@ -13,7 +13,7 @@ from utils.face_detection import load_mtcnn, detect_face
 
 TRAINING_MODE = "vggface2"
 if TRAINING_MODE == "vggface2":
-    data_folder = "/mnt/vggface2/train"
+    data_folder = "/home/disi/vggface2/vggface2_112x112"
 else:
     data_folder = "data/train"   
 
