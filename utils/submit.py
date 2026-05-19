@@ -43,11 +43,14 @@ def evaluate_local(results, ground_truth):
         correct = ground_truth.get(query)
         if correct is None:
             continue
-        if ranked[0] == correct:
+        # supporta sia stringa che lista
+        if isinstance(correct, str):
+            correct = [correct]
+        if ranked[0] in correct:
             top1 += 1
-        if correct in ranked[:5]:
+        if any(c in ranked[:5] for c in correct):
             top5 += 1
-        if correct in ranked[:10]:
+        if any(c in ranked[:10] for c in correct):
             top10 += 1
 
     acc1 = top1 / n
