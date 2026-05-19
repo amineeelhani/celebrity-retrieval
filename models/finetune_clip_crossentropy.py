@@ -71,9 +71,18 @@ class SafeImageFolder(ImageFolder):
     def __getitem__(self, index):
         try:
             return super().__getitem__(index)
-        except Exception:
-            # salta immagini corrotte, prende la prossima
+        except Exception as e:
+            # salta immagine corrotta
             return self.__getitem__((index + 1) % len(self))
+    
+    def __getitems__(self, indices):
+        results = []
+        for idx in indices:
+            try:
+                results.append(self.__getitem__(idx))
+            except Exception:
+                results.append(self.__getitem__((idx + 1) % len(self)))
+        return results
 
 # 80% training, 20% validation
 train_dataset_full = SafeImageFolder(data_folder, transform=train_transform)
