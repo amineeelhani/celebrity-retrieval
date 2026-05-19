@@ -54,7 +54,7 @@ train_transform = transforms.Compose([
     transforms.Resize((224, 224)),
     transforms.RandomHorizontalFlip(p=0.5),
     transforms.RandomRotation(degrees=15),
-    transforms.ColorJitter(brightness=0.4, contrast=0.4, saturation=0.4, hue=0.1),
+    transforms.ColorJitter(brightness=0.4, contrast=0.4, saturation=0.4), #hue=0.1),
     transforms.RandomGrayscale(p=0.1),
     transforms.GaussianBlur(kernel_size=3, sigma=(0.1, 2.0)),
     transforms.ToTensor(),
