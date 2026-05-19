@@ -92,6 +92,7 @@ for i, query_filename in enumerate(query_filenames):
 ground_truth = {
     "Brad1.png": ["Brad1_copy.png"]
 }
-
+print("Results:", results)
+print("Ground truth:", ground_truth)
 evaluate_local(results, ground_truth)
 
