@@ -76,7 +76,7 @@ gallery_features = torch.nn.functional.normalize(gallery_features, p = 2, dim = 
 
 similarity_matrix = torch.matmul(query_features, gallery_features.T)
 
-top_k = 10
+top_k = top_k = min(10, len(gallery_images))
 _, top_k_indices = torch.topk(similarity_matrix, k=top_k, dim=1)
 
 results = {}
