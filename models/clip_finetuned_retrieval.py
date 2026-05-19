@@ -51,6 +51,9 @@ for filename in os.listdir(gallery_folder):
 
 print(f"Query images: {len(query_images)}")
 print(f"Gallery images: {len(gallery_images)}")
+if len(query_images) == 0 or len(gallery_images) == 0:
+    print("No images found — add images to data/query and data/gallery")
+    exit()
 
 def extract_features(images, batch_size = 32):
     features = []
