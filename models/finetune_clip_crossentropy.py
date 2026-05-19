@@ -54,7 +54,7 @@ train_transform = transforms.Compose([
     transforms.Resize((224, 224)),
     transforms.RandomHorizontalFlip(p=0.5),
     transforms.RandomRotation(degrees=15),
-    transforms.ColorJitter(brightness=0.4, contrast=0.4, saturation=0.4), #hue=0.1),
+    transforms.ColorJitter(brightness=0.4, contrast=0.4, saturation=0.4, hue=0.1),
     transforms.RandomGrayscale(p=0.1),
     transforms.GaussianBlur(kernel_size=3, sigma=(0.1, 2.0)),
     transforms.ToTensor(),
@@ -96,8 +96,8 @@ indices = torch.randperm(len(train_dataset_full)).tolist()
 train_dataset = torch.utils.data.Subset(train_dataset_full, indices[:n_train])
 val_dataset   = torch.utils.data.Subset(val_dataset_full,   indices[n_train:])
 
-train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True,  num_workers=0)
-val_loader   = DataLoader(val_dataset,   batch_size=32, shuffle=False, num_workers=0)
+train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True,  num_workers=4)
+val_loader   = DataLoader(val_dataset,   batch_size=32, shuffle=False, num_workers=4)
 
 print(f"Training images:   {n_train}")
 print(f"Validation images: {n_val}")
