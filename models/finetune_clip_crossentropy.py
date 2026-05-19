@@ -93,8 +93,8 @@ n_train = len(train_dataset_full) - n_val
 
 # stessi indici per entrambi
 indices = torch.randperm(len(train_dataset_full)).tolist()
-train_dataset = torch.utils.data.Subset(train_dataset_full, indices[:n_train])
-val_dataset   = torch.utils.data.Subset(val_dataset_full,   indices[n_train:])
+train_dataset = torch.utils.data.Subset(train_dataset_full, range(1000))#indices[:n_train])
+val_dataset   = torch.utils.data.Subset(val_dataset_full,   range(200))#indices[n_train:])
 
 train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True,  num_workers=4)
 val_loader   = DataLoader(val_dataset,   batch_size=32, shuffle=False, num_workers=4)
