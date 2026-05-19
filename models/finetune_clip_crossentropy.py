@@ -9,6 +9,8 @@ from torch import optim                       # ottimizzatore
 from torch.utils.data import DataLoader       # dataloader
 from torchvision import datasets, transforms  # dataset e augmentation
 from utils.face_detection import load_mtcnn, detect_face
+from torchvision.datasets import ImageFolder
+
 
 
 TRAINING_MODE = "vggface2"
@@ -29,7 +31,7 @@ print(f"Using device: {device}")
 
 model, preprocess = clip.load("ViT-B/32",device)
 model.eval()
-mtcnn = load_mtcnn(device)
+
 
 #freeze CLIP weights
 for param in model.parameters():
@@ -65,9 +67,17 @@ val_transform = transforms.Compose([
     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 ])
 
+class SafeImageFolder(ImageFolder):
+    def __getitem__(self, index):
+        try:
+            return super().__getitem__(index)
+        except Exception:
+            # salta immagini corrotte, prende la prossima
+            return self.__getitem__((index + 1) % len(self))
+
 # 80% training, 20% validation
-train_dataset_full = datasets.ImageFolder(data_folder, transform=train_transform)
-val_dataset_full   = datasets.ImageFolder(data_folder, transform=val_transform)
+train_dataset_full = SafeImageFolder(data_folder, transform=train_transform)
+val_dataset_full   = SafeImageFolder(data_folder, transform=val_transform)
 
 n_val   = int(0.2 * len(train_dataset_full))
 n_train = len(train_dataset_full) - n_val
