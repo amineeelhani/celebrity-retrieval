@@ -77,8 +77,8 @@ indices = torch.randperm(len(train_dataset_full)).tolist()
 train_dataset = torch.utils.data.Subset(train_dataset_full, indices[:n_train])
 val_dataset   = torch.utils.data.Subset(val_dataset_full,   indices[n_train:])
 
-train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True,  num_workers=4)
-val_loader   = DataLoader(val_dataset,   batch_size=32, shuffle=False, num_workers=4)
+train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True,  num_workers=0)
+val_loader   = DataLoader(val_dataset,   batch_size=32, shuffle=False, num_workers=0)
 
 print(f"Training images:   {n_train}")
 print(f"Validation images: {n_val}")
