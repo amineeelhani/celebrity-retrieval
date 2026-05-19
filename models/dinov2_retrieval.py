@@ -90,7 +90,8 @@ for i, query_filename in enumerate(query_filenames):
 #submit(results=results, groupname="trade-off", url="http://localhost:3001/retrieval/")
 
 ground_truth = {
-    "brad1.jpg": ["brad2.jpg"]
+    "Brad1.png": ["Brad2.png", "Brad3.jpg"]
 }
 
 evaluate_local(results, ground_truth)
+
