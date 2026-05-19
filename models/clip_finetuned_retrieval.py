@@ -85,4 +85,12 @@ for i, query_filename in enumerate(query_filenames):
         gallery_filenames[idx] for idx in top_k_indices[i]
     ]
 
-submit(results=results, groupname="trade-off", url="http://localhost:3001/retrieval/")
+from utils.submit import evaluate_local
+
+ground_truth = {
+    "Brad1.png": ["Brad2.png", "Brad3.jpg"]
+}
+
+evaluate_local(results, ground_truth)
+
+#submit(results=results, groupname="trade-off", url="http://localhost:3001/retrieval/")
