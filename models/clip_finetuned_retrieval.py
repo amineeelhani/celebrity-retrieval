@@ -88,7 +88,7 @@ for i, query_filename in enumerate(query_filenames):
 from utils.submit import evaluate_local
 
 ground_truth = {
-    "Brad1.png": ["Brad2.png", "Brad3.jpg","Leo1.png"]
+    "Brad1.png": ["Brad1_copy.png"]
 }
 
 evaluate_local(results, ground_truth)
