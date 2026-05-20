@@ -19,6 +19,11 @@ Track every experiment: model, parameters, and scores.
 
 ## Results
 
-| Date     | Model            | Top-1 | Top-5 | Top-10 | Score  | Notes          |
-|----------|------------------|-------|-------|--------|--------|----------------|
-| 21/05/25 | ResNet50 baseline | -    | -     | -      | -      | starting point |
+| Date     | Model                        | Top-1 | Top-5 | Top-10 | Score  |
+|----------|------------------------------|-------|-------|--------|--------|
+| 21/05/26 | ResNet50 baseline            | -     | -     | -      | -      |
+| 21/05/26 | CLIP zero-shot               | -     | -     | -      | -      |
+| 21/05/26 | DINOv2 zero-shot             | -     | -     | -      | -      |
+| 21/05/26 | CLIP + CrossEntropy VGGFace2 | -     | -     | -      | -      |
+| 21/05/26 | CLIP + ArcFace VGGFace2      | -     | -     | -      | -      |
+| 21/05/26 | CLIP + ArcFace + dati prof   | -     | -     | -      | -      |

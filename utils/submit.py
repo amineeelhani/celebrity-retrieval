@@ -19,6 +19,7 @@ def submit(results, groupname, url):
     try:
         result = json.loads(response.text)
         print(f"Server response: {result}")
+        print(f"accuracy is {result['accuracy']}")
         return result
     except json.JSONDecodeError:
         print(f"Error: {response.text}")

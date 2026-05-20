@@ -13,7 +13,7 @@ from torchvision.datasets import ImageFolder
 
 
 
-TRAINING_MODE = "vggface2"
+TRAINING_MODE = "competition"
 if TRAINING_MODE == "vggface2":
     data_folder = "/home/disi/vggface2/vggface2_112x112"
 else:

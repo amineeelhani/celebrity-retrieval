@@ -20,7 +20,7 @@ print(f"Using device: {device}")
 model = torch.hub.load("facebookresearch/dinov2", "dinov2_vitb14").to(device)
 
 model.eval()
-mtcnn = load_mtcnn(device)
+#mtcnn = load_mtcnn(device)
 
 preprocess = transforms.Compose([
     transforms.Resize((224, 224)),
@@ -87,12 +87,12 @@ for i, query_filename in enumerate(query_filenames):
         gallery_filenames[idx] for idx in top_k_indices[i]
     ]
 
-#submit(results=results, groupname="trade-off", url="http://localhost:3001/retrieval/")
+submit(results=results, groupname="trade-off", url="http://localhost:3001/retrieval/")
 
-ground_truth = {
+"""ground_truth = {
     "Brad1.png": ["Brad1_copy.png"]
 }
 print("Results:", results)
 print("Ground truth:", ground_truth)
 evaluate_local(results, ground_truth)
-
+"""

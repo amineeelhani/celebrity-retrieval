@@ -24,7 +24,7 @@ model, preprocess = clip.load("ViT-B/32", device)
 state_dict = torch.load(MODEL_PATH, map_location=device)
 model.load_state_dict(state_dict)
 model.eval()
-mtcnn = load_mtcnn(device)
+#mtcnn = load_mtcnn(device)
 
 data_folder = "data"
 query_folder = os.path.join(data_folder, "query")
@@ -76,7 +76,7 @@ gallery_features = torch.nn.functional.normalize(gallery_features, p = 2, dim = 
 
 similarity_matrix = torch.matmul(query_features, gallery_features.T)
 
-top_k = top_k = min(10, len(gallery_images))
+top_k = min(10, len(gallery_images))
 _, top_k_indices = torch.topk(similarity_matrix, k=top_k, dim=1)
 
 results = {}
@@ -85,13 +85,13 @@ for i, query_filename in enumerate(query_filenames):
         gallery_filenames[idx] for idx in top_k_indices[i]
     ]
 
-from utils.submit import evaluate_local
+"""from utils.submit import evaluate_local
 
 ground_truth = {
     "Brad1.png": ["Brad2.png","Brad3.jpg"]
 }
 print("Results:", results)
 print("Ground truth:", ground_truth)
-evaluate_local(results, ground_truth)
+evaluate_local(results, ground_truth)"""
 
-#submit(results=results, groupname="trade-off", url="http://localhost:3001/retrieval/")
+submit(results=results, groupname="trade-off", url="http://localhost:3001/retrieval/")

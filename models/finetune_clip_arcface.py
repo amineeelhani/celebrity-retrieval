@@ -33,7 +33,7 @@ class ArcFaceLinear(nn.Module):
             return logits
 
 
-TRAINING_MODE = "vggface2"
+TRAINING_MODE = "competition"
 if TRAINING_MODE == "vggface2":
     data_folder = "/home/disi/vggface2/vggface2_112x112"
 else:
@@ -51,7 +51,12 @@ print(f"Using device: {device}")
 
 model, preprocess = clip.load("ViT-B/32",device)
 model.eval()
-mtcnn = load_mtcnn(device)
+#mtcnn = load_mtcnn(device)
+# carica pesi VGGFace2 se in modalità competition
+if TRAINING_MODE == "competition":
+    checkpoint = torch.load("models/clip_arcface_vggface2.pt", map_location=device)
+    model.load_state_dict(checkpoint)
+    print("Loaded VGGFace2 weights")
 
 #freeze CLIP weights
 for param in model.parameters():

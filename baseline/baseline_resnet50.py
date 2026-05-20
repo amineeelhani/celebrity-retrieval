@@ -44,7 +44,7 @@ def batching(images, batch_size=32):
 
 
 # --- Definizione dei percorsi delle cartelle ---
-data_folder = "/Users/prota/code/competition/test_data"     # Cartella radice del dataset
+data_folder = "data"     # Cartella radice del dataset
 query_folder = os.path.join(data_folder, "query")           # Sottocartella con le immagini di query
 gallery_folder = os.path.join(data_folder, "gallery")       # Sottocartella con le immagini della gallery
 
@@ -104,7 +104,7 @@ similarity_matrix = torch.matmul(query_features, gallery_features.T)
 
 # --- Recupero dei top-10 match per ogni query ---
 print("Getting top 10 matches for each query...")
-top_k = 10                                                              # Numero di risultati da restituire per ogni query
+top_k = min(10, len(gallery_filenames))                                                             # Numero di risultati da restituire per ogni query
 _, top_k_indices = torch.topk(similarity_matrix, k=top_k, dim=1)       # Per ogni query, trova gli indici delle top_k gallery più simili
                                                                         # Il "_" scarta i valori di similarità, teniamo solo gli indici
 
@@ -127,5 +127,5 @@ for i, query_filename in enumerate(query_filenames):
     results[query_filename] = top_k_filenames[i]    # Associa a ogni nome di file query la lista dei suoi top-k match nella gallery
 
 # --- Invia i risultati al server di valutazione ---
-submit(results=results, groupname="resnet50-imagenet", url="http://localhost:3001/retrieval/")
+submit(results=results, groupname="trade-off", url="http://localhost:3001/retrieval/")
 # Chiama la funzione submit con: i risultati, il nome del gruppo, e l'URL del server locale
