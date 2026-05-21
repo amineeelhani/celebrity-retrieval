@@ -32,6 +32,11 @@ print(f"Using device: {device}")
 model, preprocess = clip.load("ViT-B/32",device)
 model.eval()
 
+# carica pesi VGGFace2 se in modalità competition
+if TRAINING_MODE == "competition":
+    checkpoint = torch.load("models/clip_crossentropy_vggface2.pt", map_location=device)
+    model.load_state_dict(checkpoint)
+    print("Loaded VGGFace2 weights")
 
 #freeze CLIP weights
 for param in model.parameters():
