@@ -179,5 +179,8 @@ for epoch in range(NUM_EPOCHS):
 
     if val_acc > best_val_acc:
         best_val_acc = val_acc
-        torch.save(model.state_dict(),f"models/clip_arcface_{TRAINING_MODE}.pt")
+        torch.save({
+		'model' : model.state_dict(),
+		'head': classification_head.state_dict()
+	}, f"models/clip_arcface_{TRAINING_MODE}.pt")
         print(f" -> Saved best model (val_acc: {val_acc*100:.1f}%)")

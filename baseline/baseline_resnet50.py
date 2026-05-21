@@ -59,7 +59,7 @@ for filename in os.listdir(query_folder):                   # Itera su tutti i f
     if filename.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif')):  # Filtra solo i file immagine
         img_path = os.path.join(query_folder, filename)     # Costruisce il percorso completo del file
         query_filenames.append(filename)                     # Salva il nome del file
-        img = Image.open(img_path)                          # Apre l'immagine con PIL
+        img = Image.open(img_path).copy()                          # Apre l'immagine con PIL
         query_images.append(img)                            # Aggiunge l'immagine alla lista
 
 # --- Caricamento delle immagini della gallery (stesso procedimento) ---
@@ -67,7 +67,7 @@ for filename in os.listdir(gallery_folder):
     if filename.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif')):
         img_path = os.path.join(gallery_folder, filename)
         gallery_filenames.append(filename)
-        img = Image.open(img_path)
+        img = Image.open(img_path).copy()
         gallery_images.append(img)
 
 # Stampa quante immagini sono state caricate in ciascuna cartella
@@ -127,5 +127,5 @@ for i, query_filename in enumerate(query_filenames):
     results[query_filename] = top_k_filenames[i]    # Associa a ogni nome di file query la lista dei suoi top-k match nella gallery
 
 # --- Invia i risultati al server di valutazione ---
-submit(results=results, groupname="trade-off", url="http://localhost:3001/retrieval/")
+submit(results=results, groupname="trade-off", url="http://videosim.disi.unitn.it:3001/retrieval/")
 # Chiama la funzione submit con: i risultati, il nome del gruppo, e l'URL del server locale

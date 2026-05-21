@@ -44,14 +44,14 @@ for filename in os.listdir(query_folder):
     if filename.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif')):
         img_path = os.path.join(query_folder, filename)
         query_filenames.append(filename)
-        img = Image.open(img_path)
+        img = Image.open(img_path).copy().copy()
         query_images.append(img)
 
 for filename in os.listdir(gallery_folder):
     if filename.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif')):
         img_path = os.path.join(gallery_folder,filename)
         gallery_filenames.append(filename)
-        img = Image.open(img_path)
+        img = Image.open(img_path).copy().copy()
         gallery_images.append(img)
 
 print(f"Query images: {len(query_images)}")
@@ -87,7 +87,7 @@ for i, query_filename in enumerate(query_filenames):
         gallery_filenames[idx] for idx in top_k_indices[i]
     ]
 
-submit(results=results, groupname="trade-off", url="http://localhost:3001/retrieval/")
+submit(results=results, groupname="trade-off", url="http://videosim.disi.unitn.it:3001/retrieval/")
 
 """ground_truth = {
     "Brad1.png": ["Brad1_copy.png"]
