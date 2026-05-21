@@ -16,7 +16,7 @@ else:
 print(f"Using device: {device}")
 
 
-MODEL_PATH = "models/clip_arcface_competition.pt"
+MODEL_PATH = "models/clip_arcface_vggface2.pt"
 
 model, preprocess = clip.load("ViT-B/32", device)
 
