@@ -88,7 +88,7 @@ print(f"Trainable CLIP parameters: {trainable:,}")
 # KEY DIFFERENCE: 768 input features (ViT-L/14) instead of 512 (ViT-B/32)
 N_IDENTITY = len(os.listdir(data_folder))
 print(f"Number of identities: {N_IDENTITY}")
-classification_head = ArcFaceLinear(768, N_IDENTITY).to(device)
+classification_head = ArcFaceLinear(768, N_IDENTITY, margin = 0.5, scale = 16).to(device)
 
 # --- Data Augmentation ---
 # Face-specific augmentations to improve robustness to domain shift
@@ -132,7 +132,7 @@ print(f"Validation images: {n_val}")
 # - classification head: lr=1e-3 (learning from scratch)
 # - CLIP last 4 layers:  lr=1e-5 (fine adjustment, avoid catastrophic forgetting)
 optimizer = optim.Adam([
-    {"params": classification_head.parameters(), "lr": 1e-3},
+    {"params": classification_head.parameters(), "lr": 1e-4},
     {"params": filter(lambda p: p.requires_grad, model.parameters()), "lr": 1e-6}
 ])
 
