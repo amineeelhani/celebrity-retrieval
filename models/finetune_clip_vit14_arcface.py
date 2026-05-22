@@ -159,8 +159,8 @@ for epoch in range(NUM_EPOCHS):
 
         # Extract features — no grad for frozen layers
         # but grad flows through unfrozen last 4 layers
-        with torch.no_grad():
-            features = model.encode_image(images)
+        #with torch.no_grad():
+        features = model.encode_image(images)
         features = features.float()
 
         # ArcFace needs labels during forward pass to apply angular margin
