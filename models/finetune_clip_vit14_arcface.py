@@ -162,7 +162,7 @@ for epoch in range(NUM_EPOCHS):
         # but grad flows through unfrozen last 4 layers
         #with torch.no_grad():
         features = model.encode_image(images)
-        features = features.float()
+        #features = features.float()
 
         # ArcFace needs labels during forward pass to apply angular margin
         logits = classification_head(features, labels)
