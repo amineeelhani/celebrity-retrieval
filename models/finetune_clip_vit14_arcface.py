@@ -66,6 +66,7 @@ print(f"Using device: {device}")
 # We use ViT-L/14 (768-dim) instead of ViT-B/32 (512-dim)
 # because ViT-L/14 is our best performing retrieval model (666.3/1000)
 model, preprocess = clip.load("ViT-L/14", device)
+model.float()
 model.eval()
 
 # --- Freeze all CLIP layers first ---
