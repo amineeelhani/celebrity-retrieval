@@ -117,8 +117,8 @@ n_val   = int(0.2 * len(train_dataset_full))
 n_train = len(train_dataset_full) - n_val
 
 indices = torch.randperm(len(train_dataset_full)).tolist()
-train_dataset = torch.utils.data.Subset(train_dataset_full, indices[:n_train])
-val_dataset   = torch.utils.data.Subset(val_dataset_full,   indices[n_train:])
+train_dataset = torch.utils.data.Subset(train_dataset_full, range(500))#indices[:n_train])
+val_dataset   = torch.utils.data.Subset(val_dataset_full,   range(100))#indices[n_train:])
 
 # num_workers=0 to avoid deadlock issues on Azure VM
 train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True,  num_workers=0)
@@ -133,7 +133,7 @@ print(f"Validation images: {n_val}")
 # - CLIP last 4 layers:  lr=1e-5 (fine adjustment, avoid catastrophic forgetting)
 optimizer = optim.Adam([
     {"params": classification_head.parameters(), "lr": 1e-3},
-    {"params": filter(lambda p: p.requires_grad, model.parameters()), "lr": 1e-5}
+    {"params": filter(lambda p: p.requires_grad, model.parameters()), "lr": 1e-6}
 ])
 
 criterion = nn.CrossEntropyLoss()
@@ -168,6 +168,18 @@ for epoch in range(NUM_EPOCHS):
         loss = criterion(logits, labels)
 
         loss.backward()
+        # gradient clipping
+        torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
+        torch.nn.utils.clip_grad_norm_(classification_head.parameters(), max_norm=1.0)
+
+        # verifica gradienti — rimuovete dopo il test
+        for layer in model.visual.transformer.resblocks[-4:]:
+            for param in layer.parameters():
+                if param.grad is not None:
+                    print(f"Grad norm: {param.grad.norm().item():.6f}")
+                break  # ← dentro il for param
+            break  # ← dentro il for layer
+
         optimizer.step()
 
         train_loss += loss.item()
